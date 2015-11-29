@@ -9,7 +9,6 @@ app.controller('EventsCtrl', function ($scope, _, $uibModal, Event){
   function thisWeek(){
     Event.thisWeek()
       .then(function(data){
-        console.log(data)
         sortWeek(data);
       },
       function(error) {
