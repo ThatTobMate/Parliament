@@ -1,0 +1,136 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Code Test</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="stylesheets/style.css">
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/underscore/underscore.js"></script>
+  <script src="bower_components/moment/min/moment.min.js"></script>
+  <script src="bower_components/angular-underscore-module/angular-underscore-module.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script src="javascripts/angular-route.min.js"></script>
+  <script src="javascripts/app.js"></script>
+  <script src="javascripts/controllers/EventsController.js"></script>
+  <script src="javascripts/controllers/ModalController.js"></script>
+  <script src="javascripts/services/EventsService.js"></script>
+
+
+</head>
+<body ng-app="govEventApp">
+  <div class="container" ng-controller="EventsCtrl">
+
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h1>Parliament Events</h1>
+      </div>
+    </div>
+
+    <div class="row col-md-offset-2">
+      <div class="col-md-5 text-center">
+        <h4>Pick week to view:</h4>
+      </div>
+      <div class="col-md-5">
+        <p class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="status.opened" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>  
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <h4>Week Starting: {{weekDate | date : shortDate}}</h4>
+      </div>
+    </div>
+
+    <div class="row" ng-if="error">
+      <div class="col-xs-12">
+        <uib-alert type="danger" close="closeAlert()">{{error}}</uib-alert>
+      </div>
+    </div>
+
+
+    <div class="row">
+
+      <!-- Day START -->
+        <div class="col-md-2 days" ng-repeat="(day, value) in weeklyEvents" ng-class='{"col-md-offset-1":$first}'> 
+          <div class="row">
+            <div class="col-md-12 text-center" >
+              <h3>{{day}}</h3>
+            </div>
+          </div>
+          <div class="row event" ng-repeat="data in value | orderBy: 'StartTime'" ng-click="openModal(data)">
+            <div class="col-xs-12">
+              <div class="col-xs-12 text-center">{{data.Category}}.</div>
+            </div>
+            <div class="col-xs-12">
+              <div class="col-xs-12 text-center">House of {{data.House}}</div>
+            </div>
+            <div class="col-xs-12">
+              <div class="col-xs-12 text-center">at</div>
+            </div>
+            <div class="col-xs-12">
+              <div class="col-xs-12 text-center" ng-if="data.StartTime && data.EndTime"><b>{{data.StartTime}} - {{data.EndTime}}</b></div>
+              <div class="col-xs-12 text-center" ng-if="data.StartTime && !data.EndTime"><b>{{data.StartTime}}</b></div>
+            </div>
+
+              <div class="col-xs-12 text-center more-details">
+                <b>More details </b> <i class="glyphicon glyphicon-circle-arrow-right"></i>
+              </div>
+          </div>
+        </div>
+      <!-- Day END -->
+      </div>
+
+  <script type="text/ng-template" id="modal.html">
+    <div class="modal-header text-center">
+        <h3 class="modal-title">{{selectedEvent.Category}}.</h3>
+        <p> at </p>
+        <h3 ng-if="selectedEvent.StartTime && selectedEvent.EndTime">{{selectedEvent.StartTime}} - {{selectedEvent.EndTime}}
+        </h3>
+        <h4 ng-if="selectedEvent.StartTime && !selectedEvent.EndTime">{{selectedEvent.StartTime}}
+        </h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+          <div ng-if="selectedEvent.House == 'Lords'" class="col-sm-12">
+            <img src="images/lords.jpg" style="max-width:100%;"/>
+          </div>
+          <div ng-if="selectedEvent.House == 'Commons'" class="col-sm-12">
+            <img src="images/commons.jpg" style="max-width:100%;"/>
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-xs-12">
+            <h4>House of {{selectedEvent.House}}</h4>
+          </div>
+          <div class="col-xs-12" ng-if="selectedEvent.Location">
+            <p> in </p>
+            <p>{{selectedEvent.Location}}</p>
+          </div>
+          <div class="col-xs-12" ng-if="selectedEvent.Type">
+            <h4>Event Type:</h4>
+            <p>{{selectedEvent.Type}}</p>
+          </div>
+          <div class="col-xs-12" ng-if="selectedEvent.Description">
+            <h4>Description:</h4>
+            <p>{{selectedEvent.Description}}</p>
+          </div>
+        </div>  
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-custom" type="button" ng-click="cancel()">Close</button>
+    </div>
+  </script>
+</body>
+</html>

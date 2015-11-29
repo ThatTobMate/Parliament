@@ -1,0 +1,70 @@
+html{
+  height: 100%;
+}
+body{
+  background: white;
+  font-family: 'Roboto', sans-serif;
+}
+.event{
+  /*margin-bottom: 10px;*/
+  padding-top: 15px;
+  border-bottom: 3px solid white;
+  height: 220px;
+  position: relative;
+}
+
+.event:hover{
+  background-color: black;
+  color: white;
+}
+
+.more-details{
+  position: absolute;
+  bottom: 0;
+}
+
+.modal{
+  color: black;
+}
+
+.days{
+  color: white;
+  margin-right: 5px;
+  height: 70%;
+  overflow: auto;
+}
+.days h3{
+  border-bottom: 3px solid #FFD700;
+}
+.days:nth-child(odd){
+  background-color: #03A9F4;
+}
+.days:nth-child(even){
+  background-color: #F44336;
+}
+.modal-header{
+  color: #F44336;
+}
+
+.modal-header p{
+  color: #03A9F4;
+}
+
+.modal-body{
+  color: #F44336;
+}
+.modal-body p{
+  color: #03A9F4;
+}
+
+.btn-custom{
+  background-color: #F44336;
+  color: white;
+}
+
+@media only screen and (max-width: 750px) {
+  .days{
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+}
